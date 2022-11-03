@@ -23,8 +23,8 @@ public class UserDetails {
 	private int bookingID;
 	private String VehicleType;
 	private String Date;
-	private String Time;
-	private int PlaceId;
+	private int Time;
+	private long PlaceId;
 	
 
 
