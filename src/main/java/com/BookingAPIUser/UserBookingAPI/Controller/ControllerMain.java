@@ -10,7 +10,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.BookingAPIUser.UserBookingAPI.Entity.Tickets;
 import com.BookingAPIUser.UserBookingAPI.Entity.UserDetails;
+import com.BookingAPIUser.UserBookingAPI.Entity.UserDetailsResponse;
+import com.BookingAPIUser.UserBookingAPI.Entity.vehicleDetails;
 import com.BookingAPIUser.UserBookingAPI.Services.Servicess;
 
 @RestController
@@ -47,6 +51,16 @@ public class ControllerMain {
 		
 		service.updateVehicle(userId , usdetails);
 		return new ResponseEntity<>("Vehicle Updated " + userId +" ",HttpStatus.OK);
+	}
+	@GetMapping("/{userId}/vehicle")
+	public vehicleDetails getUserVehicleDetails(@PathVariable String userId) {
+	    UserDetails userDetails = service.getDetails(userId);
+	    return userDetails.getVDetails();
+	}
+	@GetMapping("/{userId}/tickets")
+	public Tickets getUserticketDetails(@PathVariable String userId) {
+	    UserDetails userDetails = service.getDetails(userId);
+	    return userDetails.getTickets();
 	}
 
 
