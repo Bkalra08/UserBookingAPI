@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 public class UserDetails {
 	
 	@Id
-	private int bookingID;
-	private String VehicleType;
-	private String Date;
-	private int Time;
-	private long PlaceId;
+	private String userId;
+	private String fname;
+	private String lname;
+	private int minutesSaved;
+	private vehicleDetails vDetails;
+	private Tickets tickets;
 	
-
-
-}
+	
+	}
