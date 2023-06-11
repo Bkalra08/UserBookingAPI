@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.BookingAPIUser.UserBookingAPI.Entity.DefaultVehicle;
 import com.BookingAPIUser.UserBookingAPI.Entity.Tickets;
 import com.BookingAPIUser.UserBookingAPI.Entity.UserDetails;
 import com.BookingAPIUser.UserBookingAPI.Entity.UserDetailsResponse;
@@ -57,6 +58,15 @@ public class ControllerMain {
         service.updateVehicle(userId, userDetails);
         return new ResponseEntity<>("Vehicle Details Updated for User: " + userId, HttpStatus.OK);
     }
+    @PutMapping("/SetDefaultVehicle/{userId}")
+    	public ResponseEntity<?> setDefaultVehicle(@PathVariable String userId, @RequestBody DefaultVehicle defaultvehicle){
+    		UserDetails userDetails = service.getDetails(userId);
+    		userDetails.setDefaultvehicle(defaultvehicle);
+    		service.setDefaultVehicle(userId,userDetails);
+    		return new ResponseEntity<>("Default vehicle for user : " + userId, HttpStatus.OK);
+    	}
+    
+    
 	@GetMapping("/{userId}/vehicle")
     public List<vehicleDetails> getUserVehicleDetails(@PathVariable String userId) {
         UserDetails userDetails = service.getDetails(userId);
@@ -68,6 +78,18 @@ public class ControllerMain {
         UserDetails userDetails = service.getDetails(userId);
         return userDetails.getTickets();
     }
+    @GetMapping("/GetTicket/{userId}/{ticketId}")
+    public ResponseEntity<?> getSpecificTicket(@PathVariable String userId, @PathVariable String ticketId) {
+        Tickets ticket = service.getSpecificTicket(userId, ticketId);
+        return new ResponseEntity<>(ticket, HttpStatus.OK);
+    }
+    @GetMapping("/{userId}/latest-ticket")
+    public ResponseEntity<Tickets> getLatestTicket(@PathVariable String userId) {
+        Tickets latestTicket = service.getLatestTicket(userId);
+        return new ResponseEntity<>(latestTicket, HttpStatus.OK);
+    }
+
+
 
 
 }

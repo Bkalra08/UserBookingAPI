@@ -16,5 +16,4 @@ public class vehicleDetails {
 	private String VehicleId;
 	private String vehicleType;
 	private String VehicleName;
-	private boolean isDefault;
 }

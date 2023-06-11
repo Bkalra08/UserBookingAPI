@@ -26,7 +26,9 @@ public class UserDetails {
 	private String fname;
 	private String lname;
 	private int minutesSaved;
+	
 	private List<vehicleDetails> vDetails;
+	private DefaultVehicle defaultvehicle;
     private List<Tickets> tickets;
 	
 	
