@@ -1,5 +1,7 @@
 package com.BookingAPIUser.UserBookingAPI.Entity;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,8 +26,8 @@ public class UserDetails {
 	private String fname;
 	private String lname;
 	private int minutesSaved;
-	private vehicleDetails vDetails;
-	private Tickets tickets;
+	private List<vehicleDetails> vDetails;
+    private List<Tickets> tickets;
 	
 	
 	}

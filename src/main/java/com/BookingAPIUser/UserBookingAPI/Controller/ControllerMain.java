@@ -1,4 +1,6 @@
 package com.BookingAPIUser.UserBookingAPI.Controller;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,27 +43,31 @@ public class ControllerMain {
 	} 
 	
 	@PutMapping("/Ticket/{userId}")
-	public ResponseEntity<?>updateticket(@PathVariable String userId, @RequestBody UserDetails udetails){
-		
-		service.updateTicket(userId , udetails);
-		return new ResponseEntity<>("Ticket Updated " + userId +" ",HttpStatus.OK);
-	}
-	@PutMapping("/VehicleDetails/{userId}")
-	public ResponseEntity<?>updatevehicle(@PathVariable String userId, @RequestBody UserDetails usdetails){
-		
-		service.updateVehicle(userId , usdetails);
-		return new ResponseEntity<>("Vehicle Updated " + userId +" ",HttpStatus.OK);
-	}
+    public ResponseEntity<?> updateticket(@PathVariable String userId, @RequestBody List<Tickets> tickets) {
+        UserDetails userDetails = service.getDetails(userId);
+        userDetails.setTickets(tickets);
+        service.updateTicket(userId, userDetails);
+        return new ResponseEntity<>("Tickets Updated for User: " + userId, HttpStatus.OK);
+    }
+    
+    @PutMapping("/VehicleDetails/{userId}")
+    public ResponseEntity<?> updatevehicle(@PathVariable String userId, @RequestBody List<vehicleDetails> vehicleDetailsList) {
+        UserDetails userDetails = service.getDetails(userId);
+        userDetails.setVDetails(vehicleDetailsList);
+        service.updateVehicle(userId, userDetails);
+        return new ResponseEntity<>("Vehicle Details Updated for User: " + userId, HttpStatus.OK);
+    }
 	@GetMapping("/{userId}/vehicle")
-	public vehicleDetails getUserVehicleDetails(@PathVariable String userId) {
-	    UserDetails userDetails = service.getDetails(userId);
-	    return userDetails.getVDetails();
-	}
-	@GetMapping("/{userId}/tickets")
-	public Tickets getUserticketDetails(@PathVariable String userId) {
-	    UserDetails userDetails = service.getDetails(userId);
-	    return userDetails.getTickets();
-	}
+    public List<vehicleDetails> getUserVehicleDetails(@PathVariable String userId) {
+        UserDetails userDetails = service.getDetails(userId);
+        return userDetails.getVDetails();
+    }
+    
+    @GetMapping("/{userId}/tickets")
+    public List<Tickets> getUserticketDetails(@PathVariable String userId) {
+        UserDetails userDetails = service.getDetails(userId);
+        return userDetails.getTickets();
+    }
 
 
 }
