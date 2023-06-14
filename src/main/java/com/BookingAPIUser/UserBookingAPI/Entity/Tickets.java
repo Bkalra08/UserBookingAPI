@@ -1,5 +1,7 @@
 package com.BookingAPIUser.UserBookingAPI.Entity;
 
+import org.springframework.data.annotation.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,7 +12,7 @@ import lombok.NoArgsConstructor;
 
 public class Tickets {
 	
-	
+	@Id
 	private String ticketId;
 	private boolean ActiveStatus;
 	private String ticketIdCheckout;

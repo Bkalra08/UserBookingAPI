@@ -27,6 +27,19 @@ public class Servicess implements serviceInterface {
     public UserDetails getDetails(String userId) {
         return repo.findById(userId).orElseThrow(() -> new RuntimeException("UserDetails not found"));
     }
+    @Override
+    public Boolean updateIsTowed(String userId, UserDetails userDetails) {
+        Optional<UserDetails> userById = repo.findById(userId);
+        if (userById.isPresent()) {
+            UserDetails existingUser = userById.get();
+            existingUser.setIsTowed(userDetails.getIsTowed());
+            repo.save(existingUser);
+            return true;
+        } else {
+            throw new RuntimeException("UserDetails not found with ID: " + userId);
+        }
+    }
+
 
     @Override
     public UserDetails findById(String userId) {
@@ -108,6 +121,36 @@ public class Servicess implements serviceInterface {
             throw new RuntimeException("User not found with id: " + userId);
         }
     }
+    @Override
+    public void updateTicket(String userId, String ticketId, Tickets updatedTicket) {
+        Optional<UserDetails> userById = repo.findById(userId);
+        if (userById.isPresent()) {
+            UserDetails userDetails = userById.get();
+            List<Tickets> tickets = userDetails.getTickets();
+            Optional<Tickets> ticketToUpdate = tickets.stream()
+                    .filter(ticket -> ticket.getTicketId().equals(ticketId))
+                    .findFirst();
+            if (ticketToUpdate.isPresent()) {
+                Tickets existingTicket = ticketToUpdate.get();
+                // Update the necessary fields of the ticket
+                existingTicket.setActiveStatus(updatedTicket.isActiveStatus());
+                existingTicket.setTicketIdCheckout(updatedTicket.getTicketIdCheckout());
+                existingTicket.setTicketIdCheckin(updatedTicket.getTicketIdCheckin());
+                existingTicket.setBookingtime(updatedTicket.getBookingtime());
+                existingTicket.setCheckinTime(updatedTicket.getCheckinTime());
+                existingTicket.setCheckoutTime(updatedTicket.getCheckoutTime());
+                existingTicket.setDuration(updatedTicket.getDuration());
+                
+                repo.save(userDetails); // Save the updated UserDetails object
+            } else {
+                throw new RuntimeException("Ticket not found with ID: " + ticketId);
+            }
+        } else {
+            throw new RuntimeException("UserDetails not found with ID: " + userId);
+        }
+    }
+
+
 
     @Override
     public void setDefaultVehicle(String ownerId, UserDetails userDetails) {
@@ -120,5 +163,18 @@ public class Servicess implements serviceInterface {
             throw new RuntimeException("UserDetails not found");
         }
     }
+
+	@Override
+	public Boolean updateMessage(String userId, UserDetails userDetails) {
+		Optional<UserDetails> userById = repo.findById(userId);
+	    if (userById.isPresent()) {
+	        UserDetails existingUser = userById.get();
+	        existingUser.setMessage(userDetails.getMessage());
+	        repo.save(existingUser);
+	        return true;
+	    } else {
+	        throw new RuntimeException("UserDetails not found with ID: " + userId);
+	    }
+	}
 
 }

@@ -15,6 +15,10 @@ public interface serviceInterface {
 	void setDefaultVehicle(String ownerId, UserDetails userDetails);
 	Tickets getSpecificTicket(String userId, String ticketId);
 	Tickets getLatestTicket(String userId);
+	Boolean updateIsTowed(String userId, UserDetails userDetails);
+	Boolean updateMessage(String userId, UserDetails userDetails);
+	void updateTicket(String ownerId, String ticketId, Tickets updatedTicket);
+
 
 
 }

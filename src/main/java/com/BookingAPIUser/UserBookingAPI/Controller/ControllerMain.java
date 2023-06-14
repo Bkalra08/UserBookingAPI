@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +38,12 @@ public class ControllerMain {
 	public UserDetails getDetails(@PathVariable String userId) {
 		return this.service.getDetails(userId);
 	}
+	@GetMapping("/{userId}/isTowed")
+	public ResponseEntity<Boolean> getIsTowed(@PathVariable String userId) {
+	    UserDetails userDetails = service.getDetails(userId);
+	    Boolean isTowed = userDetails.getIsTowed();
+	    return new ResponseEntity<>(isTowed, HttpStatus.OK);
+	}
 	@DeleteMapping("/DeleteUser/{userId}")
 	public ResponseEntity<?>DeleteData(@PathVariable String userId){
 		service.DeleteUserData(service.findById(userId).getUserId());
@@ -66,6 +73,27 @@ public class ControllerMain {
     		return new ResponseEntity<>("Default vehicle for user : " + userId, HttpStatus.OK);
     	}
     
+    @PatchMapping("/{userId}/isTowed")
+    public ResponseEntity<?> updateIsTowed(@PathVariable String userId, @RequestBody Boolean isTowed) {
+        UserDetails userDetails = service.getDetails(userId);
+        userDetails.setIsTowed(isTowed);
+        service.updateIsTowed(userId, userDetails);
+        return new ResponseEntity<>("isTowed field updated for user: " + userId, HttpStatus.OK);
+    }
+    @PatchMapping("/{userId}/message")
+    public ResponseEntity<?> updateMessage(@PathVariable String userId, @RequestBody Integer message) {
+        UserDetails userDetails = service.getDetails(userId);
+        userDetails.setMessage(message);
+        service.updateMessage(userId, userDetails);
+        return new ResponseEntity<>("message field updated for user: " + userId, HttpStatus.OK);
+    }
+    @PatchMapping("/UpdateTicket/{userId}/{ticketId}")
+    public ResponseEntity<?> updateTicket(@PathVariable String userId, @PathVariable String ticketId, @RequestBody Tickets updatedTicket) {
+        service.updateTicket(userId, ticketId, updatedTicket);
+        return new ResponseEntity<>("Ticket updated successfully", HttpStatus.OK);
+    }
+
+
     
 	@GetMapping("/{userId}/vehicle")
     public List<vehicleDetails> getUserVehicleDetails(@PathVariable String userId) {
@@ -77,6 +105,12 @@ public class ControllerMain {
     public List<Tickets> getUserticketDetails(@PathVariable String userId) {
         UserDetails userDetails = service.getDetails(userId);
         return userDetails.getTickets();
+    }
+    @GetMapping("/{userId}/message")
+    public ResponseEntity<Integer> getMessage(@PathVariable String userId) {
+        UserDetails userDetails = service.getDetails(userId);
+        Integer message = userDetails.getMessage();
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
     @GetMapping("/GetTicket/{userId}/{ticketId}")
     public ResponseEntity<?> getSpecificTicket(@PathVariable String userId, @PathVariable String ticketId) {

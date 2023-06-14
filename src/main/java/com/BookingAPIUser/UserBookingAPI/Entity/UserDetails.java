@@ -26,6 +26,8 @@ public class UserDetails {
 	private String fname;
 	private String lname;
 	private int minutesSaved;
+	private Boolean isTowed;
+	private int message;
 	
 	private List<vehicleDetails> vDetails;
 	private DefaultVehicle defaultvehicle;
