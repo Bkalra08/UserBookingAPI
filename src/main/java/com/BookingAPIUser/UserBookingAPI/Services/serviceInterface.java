@@ -19,6 +19,7 @@ public interface serviceInterface {
 	Boolean updateMessage(String userId, UserDetails userDetails);
 	void updateTicket(String ownerId, String ticketId, Tickets updatedTicket);
 //	Tickets getTicketById(String ticketId);
+	void patchTicket(String userId, Tickets updatedTicket);
 
 
 

@@ -19,8 +19,8 @@ public class Tickets {
 	private String ticketIdCheckin;
 	private String ownerId;
 	private String bookingtime;
-	private String CheckinTime;
-	private String CheckoutTime;
+	private String checkinTime;
+	private String checkoutTime;
 	private int duration;
 	
 

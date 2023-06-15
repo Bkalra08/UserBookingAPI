@@ -63,6 +63,45 @@ public class ControllerMain {
 //        }
 //        return nullProperties.toArray(new String[0]);
 //    }
+	
+	@PatchMapping("/{userId}/tickets/{ticketId}")
+	public ResponseEntity<Tickets> patchTicket(
+	        @PathVariable("userId") String userId,
+	        @PathVariable("ticketId") String ticketId,
+	        @RequestBody Tickets updatedFields) {
+
+	    UserDetails userDetails = service.getDetails(userId);
+	    List<Tickets> tickets = userDetails.getTickets();
+
+	    for (Tickets ticket : tickets) {
+	        if (ticket.getTicketId().equals(ticketId)) {
+	            // Update specific fields if they are not null
+//	            if (updatedFields.isActiveStatus() != null) {
+//	                ticket.setActiveStatus(updatedFields.isActiveStatus());
+//	            }
+	            if (updatedFields.getTicketIdCheckout() != null) {
+	                ticket.setTicketIdCheckout(updatedFields.getTicketIdCheckout());
+	            }
+	            if (updatedFields.getTicketIdCheckin() != null) {
+	                ticket.setTicketIdCheckin(updatedFields.getTicketIdCheckin());
+	            }
+	            if (updatedFields.getCheckoutTime() != null) {
+	                ticket.setCheckoutTime(updatedFields.getCheckoutTime());
+	            }
+	            if (updatedFields.getCheckinTime() != null) {
+	                ticket.setCheckinTime(updatedFields.getCheckinTime());
+	            }
+	            // Update other fields as needed
+
+	            service.patchTicket(userId, ticket);
+	            return ResponseEntity.ok(ticket);
+	        }
+	    }
+
+	    throw new RuntimeException("Ticket not found with ID: " + ticketId);
+	}
+
+
 	@GetMapping("/GetById/{userId}")
 	public UserDetails getDetails(@PathVariable String userId) {
 		return this.service.getDetails(userId);

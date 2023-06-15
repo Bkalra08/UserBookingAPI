@@ -165,6 +165,74 @@ public class Servicess implements serviceInterface {
             throw new RuntimeException("UserDetails not found with ID: " + userId);
         }
     }
+    
+    @Override
+    public void patchTicket(String userId, Tickets updatedTicket) {
+        Optional<UserDetails> userDetails = repo.findById(userId);
+        if (userDetails.isPresent()) {
+            UserDetails userDetailsObj = userDetails.get();
+            List<Tickets> ticketList = userDetailsObj.getTickets();
+            for (Tickets ticket : ticketList) {
+                if (ticket.getTicketId().equals(updatedTicket.getTicketId())) {
+                    if (updatedTicket.getTicketIdCheckout() != null ) {
+                        ticket.setTicketIdCheckout(updatedTicket.getTicketIdCheckout());
+                    }
+                    if (updatedTicket.getTicketIdCheckin() != null) {
+                        ticket.setTicketIdCheckin(updatedTicket.getTicketIdCheckin());
+                    }
+                    if ( updatedTicket.getCheckoutTime() != null) {
+                        ticket.setCheckoutTime(updatedTicket.getCheckoutTime());
+                    }
+                    if (updatedTicket.getCheckinTime() != null) {
+                    	ticket.setCheckinTime(updatedTicket.getCheckinTime());
+                    }
+//      
+                    
+
+                    repo.save(userDetailsObj); // Save the updated UserDetails object
+                    return;
+                }
+            }
+            throw new RuntimeException("Ticket not found with ID: " + updatedTicket.getTicketId());
+        } else {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+    }
+
+//    
+//    @Override
+//    public void patchTicket(String userId, String ticketId, Tickets updatedFields) {
+//        Optional<UserDetails> userById = repo.findById(userId);
+//        if (userById.isPresent()) {
+//            UserDetails userDetails = userById.get();
+//            List<Tickets> tickets = userDetails.getTickets();
+//            Optional<Tickets> ticketToUpdate = tickets.stream()
+//                    .filter(ticket -> ticket.getTicketId().equals(ticketId))
+//                    .findFirst();
+//            if (ticketToUpdate.isPresent()) {
+//                Tickets existingTicket = ticketToUpdate.get();
+//
+//                // Update only the specified fields if they are not null
+//                if (updatedFields.isActiveStatus() != null) {
+//                    existingTicket.setActiveStatus(updatedFields.isActiveStatus());
+//                }
+//                if (updatedFields.getTicketIdCheckout() != null) {
+//                    existingTicket.setTicketIdCheckout(updatedFields.getTicketIdCheckout());
+//                }
+//                if (updatedFields.getTicketIdCheckin() != null) {
+//                    existingTicket.setTicketIdCheckin(updatedFields.getTicketIdCheckin());
+//                }
+//                // Add more fields to update if needed
+//
+//                repo.save(userDetails); // Save the updated UserDetails object
+//            } else {
+//                throw new RuntimeException("Ticket not found with ID: " + ticketId);
+//            }
+//        } else {
+//            throw new RuntimeException("UserDetails not found with ID: " + userId);
+//        }
+//    }
+
 
 
 
