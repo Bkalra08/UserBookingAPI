@@ -1,6 +1,11 @@
 package com.BookingAPIUser.UserBookingAPI.Controller;
+import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +39,30 @@ public class ControllerMain {
 	public UserDetails addDetails(@RequestBody UserDetails details) {
 		return this.service.addDetails(details);
 	}
+//	@PatchMapping("/{userId}/{ticketId}")
+//    public void updateTicketFields(@PathVariable String userId, @PathVariable String ticketId, @RequestBody Tickets updatedFields) {
+//        Tickets ticket = service.getSpecificTicket(userId, ticketId);
+//
+//        // Copy non-null properties from updatedFields to ticket
+//        BeanUtils.copyProperties(updatedFields, ticket, getNullPropertyNames(updatedFields));
+//
+//        // Call the updateTicket method to save the updated ticket
+//        service.updateTicket(userId, ticketId, ticket);
+//    }
+//
+//    // Helper method to get null property names from an object
+//    private String[] getNullPropertyNames(Object source) {
+//        final BeanWrapper src = new BeanWrapperImpl(source);
+//        PropertyDescriptor[] descriptors = src.getPropertyDescriptors();
+//        List<String> nullProperties = new ArrayList<>();
+//        for (PropertyDescriptor descriptor : descriptors) {
+//            String propertyName = descriptor.getName();
+//            if (src.getPropertyValue(propertyName) == null) {
+//                nullProperties.add(propertyName);
+//            }
+//        }
+//        return nullProperties.toArray(new String[0]);
+//    }
 	@GetMapping("/GetById/{userId}")
 	public UserDetails getDetails(@PathVariable String userId) {
 		return this.service.getDetails(userId);
@@ -80,6 +109,7 @@ public class ControllerMain {
         service.updateIsTowed(userId, userDetails);
         return new ResponseEntity<>("isTowed field updated for user: " + userId, HttpStatus.OK);
     }
+    
     @PatchMapping("/{userId}/message")
     public ResponseEntity<?> updateMessage(@PathVariable String userId, @RequestBody Integer message) {
         UserDetails userDetails = service.getDetails(userId);
@@ -92,7 +122,7 @@ public class ControllerMain {
         service.updateTicket(userId, ticketId, updatedTicket);
         return new ResponseEntity<>("Ticket updated successfully", HttpStatus.OK);
     }
-
+//
 
     
 	@GetMapping("/{userId}/vehicle")

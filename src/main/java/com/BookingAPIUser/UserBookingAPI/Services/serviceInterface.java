@@ -18,6 +18,7 @@ public interface serviceInterface {
 	Boolean updateIsTowed(String userId, UserDetails userDetails);
 	Boolean updateMessage(String userId, UserDetails userDetails);
 	void updateTicket(String ownerId, String ticketId, Tickets updatedTicket);
+//	Tickets getTicketById(String ticketId);
 
 
 

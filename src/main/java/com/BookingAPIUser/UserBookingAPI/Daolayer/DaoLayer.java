@@ -13,4 +13,8 @@ public interface DaoLayer extends MongoRepository<UserDetails, String> {
 	
 	Optional<UserDetails> findById(String userId);
 
+	Optional<UserDetails> findByTicketsTicketId(String ticketId);
+	
+	
+
 }

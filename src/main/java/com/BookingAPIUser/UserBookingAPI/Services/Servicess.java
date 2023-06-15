@@ -45,6 +45,21 @@ public class Servicess implements serviceInterface {
     public UserDetails findById(String userId) {
         return repo.findById(userId).orElseThrow(() -> new RuntimeException("UserDetails not found"));
     }
+//    @Override
+//    public Tickets getTicketById(String ticketId) {
+//        Optional<UserDetails> userDetails = repo.findByTicketsTicketId(ticketId);
+//        if (userDetails.isPresent()) {
+//            UserDetails userDetailsObj = userDetails.get();
+//            List<Tickets> ticketList = userDetailsObj.getTickets();
+//            Optional<Tickets> ticket = ticketList.stream()
+//                    .filter(t -> t.getTicketId().equals(ticketId))
+//                    .findFirst();
+//            return ticket.orElseThrow(() -> new RuntimeException("Ticket not found with ID: " + ticketId));
+//        } else {
+//            throw new RuntimeException("User not found with ticket ID: " + ticketId);
+//        }
+//    }
+
 
     @Override
     public void DeleteUserData(String userId) {
@@ -98,8 +113,9 @@ public class Servicess implements serviceInterface {
         if (userById.isPresent()) {
             UserDetails userDetails = userById.get();
             List<Tickets> ticketList = userDetails.getTickets();
+            int lastIndex = ticketList.size() - 1;
             if (!ticketList.isEmpty()) {
-                return ticketList.get(0); // Get the first (latest) ticket
+                return ticketList.get(lastIndex); // Get the first (latest) ticket
             } else {
                 throw new RuntimeException("No tickets found for user with ID: " + userId);
             }
